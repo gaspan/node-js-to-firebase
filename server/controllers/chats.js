@@ -1,3 +1,4 @@
+//belum fix
 var firebase = require('../config/firebase')
 var router = require('express').Router()
 
@@ -6,27 +7,46 @@ var database = firebase.database()
 database.goOnline()
 
 router
-  //get all
+  //get all personalChat ok
   .get('/', function (req, res) {
-    var ref = database.ref('/user/user');
+    var ref = database.ref('/user/chats/personalChat');
     ref.once('value', function(snapshot) {
       res.json(snapshot.val());
     }, function(errorObject) {
-      res.json('The read failed: ' + errorObject.code);
+      res.json('The chat failed: ' + errorObject.code);
     })
   })
   //add data
   .post('/', function (req, res) {
+    var idSender = req.body.idsender;
+    var idReceiper = req.body.idreceiper;
+    var name = req.body.name;
+    var text = req.body.text;
+
+    //cek apakah sudah ada idSender dan idReceiper
+    var ref = database.ref('/user/chats/personalChat')
+    ref.orderByChild('idSender').equalTo(idSender).once('child_added', function(snapshot){
+      snapshot.
+    })
+    ref.once('value', function(snapshot) {
+
+    })
+
+
+    //new
+
+    //
     var ref = database.ref('/user');
-    var postRef = ref.child('/user');
+    var postRef = ref.child('/chats');
     var newPostRef = postRef.push({
+      iduser: req.body.id,
       name: req.body.name,
-      description: req.body.description
+      text: req.body.text
     }).then(function () {
         res.status(201).send('OK');
       })
       .catch(function(error) {
-        res.json('add data failed: ' + error.code)
+        res.json('add chat failed: ' + error.code)
     })
   })
 
@@ -34,9 +54,8 @@ router.route('/:id')
       //update data
       .put(function (req, res) {
         var id = req.params.id;
-        database.ref('/user/user/' + id).set({
-          name: req.body.name,
-          description: req.body.description
+        database.ref('/user/chats/' + id + '/text').set({
+          text: req.body.text
         })
         .then(function () {
           res.status(201).send('OK');
@@ -46,14 +65,14 @@ router.route('/:id')
         })
       })
 
-      //get one data
+      //get one chat pc to pc
       .get(function (req, res) {
         var id = req.params.id;
-        var ref = database.ref('/user/user/' + id);
+        var ref = database.ref('/user/chats/personalChat' + id);
         ref.once('value', function(snapshot) {
           res.json(snapshot.val());
         }, function(errorObject) {
-          res.json('The read failed: ' + errorObject.code);
+          res.json('The chat failed: ' + errorObject.code);
         })
       })
 
@@ -61,14 +80,14 @@ router.route('/:id')
       .delete((req, res) => {
             var id = req.params.id;
             var ref = database.ref('/user');
-            var delRef = ref.child('/user/' + id)
+            var delRef = ref.child('/chats/' + id)
             var hapus = delRef.remove()
             .then(function () {
               // return res.json('key :' + id + ' was deleted')
               res.status(201).send('OK. key :' + id + ' was deleted');
             })
           .catch(function(error) {
-            res.json('delete data failed: ' + errorObject.code)
+            res.json('delete chat failed: ' + errorObject.code)
           })
       })
 

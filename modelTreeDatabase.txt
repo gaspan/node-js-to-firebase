@@ -1,0 +1,21 @@
++user
+  +chats
+    +personalChat
+      -idPerson1
+      -idPerson2
+      +Message
+        -sender
+        -text
+        -timestamp
+    +GroupChat
+      -namaGrup
+      +anggota
+        -a:true
+        -b:true
+        -c:true
+        -d:true
+        -e:false
+        +Message
+          -sender
+          -text
+          -timestamp
