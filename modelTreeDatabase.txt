@@ -1,21 +1,24 @@
 +user
   +chats
-    +personalChat
-      -idPerson1
-      -idPerson2
-      +Message
-        -sender
-        -text
-        -timestamp
+
+    +personalChat (ok)
+      +Members
+        -idPerson1
+        -idPerson2
+        +Messages
+          -senderId
+          -text
+          -createAt
+
     +GroupChat
       -namaGrup
-      +anggota
+      +members
         -a:true
         -b:true
         -c:true
         -d:true
         -e:false
-        +Message
-          -sender
+        +Messagese
+          -senderId
           -text
-          -timestamp
+          -createAt
