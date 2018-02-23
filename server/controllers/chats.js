@@ -9,41 +9,53 @@ var database = firebase.database()
 database.goOnline()
 
 router
-  //get all personalChat ok
+  // get all personalChat ok
   .get('/', function (req, res) {
-    var ref = database.ref('/user/chats/personalChat');
+    var ref = database.ref('/personalChat');
     ref.once('value', function(snapshot) {
       res.json(snapshot.val());
     }, function(errorObject) {
       res.json('The chat failed: ' + errorObject.code);
     })
   })
-  //add data personalChat ok
+
+  //get all personalChat seorang user
+  // .get('/', function(req, re) {
+  //   var ref = database.ref('/user/chats/personalChat/Members')
+  //   ref.orderByChild('idperson1').equalTo(3).once('child_added', function(snapshot) {
+  //     res.json(snapshot.key());
+  //   }, function(errorObject) {
+  //     res.json('No Chat from that user: ' + errorObject.code );
+  //   })
+  // })
+
+
+  //add post personalChat ok
   .post('/', function (req, res) {
-    //variable
-    var idPerson1 = req.body.idPerson1;
-    var idPerson2 = req.body.idPerson2;
+    //variable yang di post
     var senderId = req.body.senderId;
-    var texT = req.body.text;
+    var receiperId = req.body.receiperId;
+    var text = req.body.text;
     var createAt = req.body.createAt;
 
-    //references to database
-    var ref = database.ref('/user/chats/personalChat');
-    // Get a key for a new Post.
-    var newPostKey = database.ref('/user/chats/').child('personalChat').push().key;
+    //function for sorting id for id chat
+    function sortNumber(a,b) {
+      return a- b;
+    }
 
-    //add personal member chat
-    var members = ref.child(newPostKey + '/Members');
-    members.push({
-      idperson1: idPerson1,
-      idperson2: idPerson2
-    });
-    //add messages na
-    var messages = ref.child(newPostKey + '/Members/Messages');
-    messages.push({
-      senderid: senderId,
-      text: texT,
-      createat: createAt
+    // variable id personalChat
+    var NumArray = [senderId, receiperId];
+    NumArray.sort(sortNumber);
+    var idchat = NumArray.join();
+
+    //references to database
+    var ref = database.ref('/personalChat/' + idchat);
+
+    ref.push({
+        senderId: senderId,
+        receiperId: receiperId,
+        text: text,
+        createAt: createAt
     })
     .then(function () {
         res.status(201).send('OK');
