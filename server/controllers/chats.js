@@ -33,23 +33,23 @@ router
   //add post personalChat ok
   .post('/', function (req, res) {
     //variable yang di post
-    var senderId = req.body.senderId;
-    var receiperId = req.body.receiperId;
+    var person1Id = req.body.person1Id;
+    var person2Id = req.body.person2Id;
     var text = req.body.text;
     var createAt = req.body.createAt;
 
-    //function for sorting id for id chat
-    function sortNumber(a,b) {
-      return a- b;
-    }
-
-    // variable id personalChat
-    var NumArray = [senderId, receiperId];
-    NumArray.sort(sortNumber);
-    var idchat = NumArray.join();
+    // //function for sorting id for id chat
+    // function sortNumber(a,b) {
+    //   return a- b;
+    // }
+    //
+    // // variable id personalChat
+    // var NumArray = [senderId, receiperId];
+    // NumArray.sort(sortNumber);
+    // var idchat = NumArray.join();
 
     //references to database
-    var ref = database.ref('/personalChat/' + idchat);
+    var ref = database.ref('/personalChat/' + person1Id + '/' + person2Id);
 
     ref.push({
         senderId: senderId,

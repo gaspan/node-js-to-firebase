@@ -1,8 +1,8 @@
 +personalChat
-  -idchat
+  +person1Id
+    +person2Id
     uid
       -senderId
-      -receiperId
       -text
       -createAt
 
