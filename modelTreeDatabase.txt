@@ -1,8 +1,9 @@
 +personalChat
-  +person1Id
-    +person2Id
+  -idpersonchat
     uid
       -senderId
+      -nameSender
+      -receiperId
       -text
       -createAt
 
@@ -17,4 +18,4 @@
     +Messagese
       -senderId
       -text
-        -createAt
+      -createAt
