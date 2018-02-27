@@ -1,11 +1,16 @@
 +personalChat
   -idpersonchat
-    uid
-      -senderId
-      -nameSender
-      -receiperId
-      -text
-      -createAt
+    -idPersonSpoken
+      uid
+        -senderId
+        -nameSender
+        -receiperId
+        -text
+        -createAt(hari tanggal jam)
+function:
+1)post personalChat (ok)
+2)get data chat user to user (ok)
+
 
 +GroupChat
   -namaGrup
